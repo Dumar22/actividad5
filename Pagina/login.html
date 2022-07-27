@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>login</title>
+</head>
+<body>
+
+
+    <script>
+   
+
+
+   var peticion = function(tipo,url,payload,callback){
+        
+        //Creando la peticion que acarca los dos metos post y get
+        var xhr = new XMLHttpRequest
+       xhr.open(tipo,url)
+       if(tipo =="GET"){
+        xhr.send()
+       }else{
+        xhr.setRequestHeader("content-type","application/x-www-form-urlencoded");
+        xhr.send(payload)
+       }
+       
+       
+       xhr.addEventListener('readystatechange',function(){
+           if(this.readyState === 4){
+               return callback(this.responseText)
+              
+           }
+       })
+   }
+
+
+  /*  var Get = function(url,callback){
+        
+        //Creando la peticion
+        var xhr = new XMLHttpRequest
+       xhr.open("GET",url)
+       xhr.send()
+       
+       xhr.addEventListener('readystatechange',function(){
+           if(this.readyState === 4){
+               return callback(this.responseText)
+              
+           }
+       })
+   }
+
+
+   
+    */var Post = function(url, payload, callback){
+    
+        //Creando la peticion
+       
+        var xhr = new XMLHttpRequest
+       xhr.open("POST",url)
+       //necesidad de esta cabecera:
+       xhr.setRequestHeader("content-type","application/x-www-form-urlencoded");
+       xhr.send(payload)
+       
+       xhr.addEventListener('readystatechange',function(){
+           if(this.readyState === 4){
+               return callback(this.responseText)
+              
+           }
+       })
+
+   }
+   
+
+   var iniciarsesion =function(){
+
+    var correo =document.getElementById('email').value
+    var password =document.getElementById('password').value
+
+    // var payload = "email="+correo+"&password="+password+""(se covirete en objeto)
+
+              var post={
+                tipo:"POST",
+                url: "http://localhost:3000/iniciarsesion",
+               payload:{
+                email:correo,
+                    password:password
+                }
+                    
+             }
+                
+            
+
+            peticion(post.tipo,post.url,post.payload,function(respuesta){
+                console.log(respuesta)
+            }) 
+        }
+    //    peticion("POST","http://localhost:3000/iniciarsesion",payload,function(respuesta){
+        //console.log(respuesta)
+   //})
+   //}
+
+    </script>
+
+
+    <h3>Login</h3>
+
+    <input type="text"  id="email">
+    <input type="password" id="password">
+    <div onclick="iniciarsesion()"> Login</div>
+
+    
+</body>
+</html>
